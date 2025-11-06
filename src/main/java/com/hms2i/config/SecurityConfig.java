@@ -9,6 +9,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    private JWTFilter jwtFilter;
+
+    public SecurityConfig(JWTFilter jwtFilter) {
+        this.jwtFilter = jwtFilter;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
 
@@ -17,7 +23,8 @@ public class SecurityConfig {
         http.csrf().disable().cors().disable();
 
         //haap
-        http.authorizeHttpRequests().anyRequest().permitAll();
+        //http.authorizeHttpRequests().anyRequest().permitAll();
+        http.authorizeHttpRequests().requestMatchers("/api/v1/island/signup","/api/v1/island/login").permitAll();
 
         return http.build();
 
